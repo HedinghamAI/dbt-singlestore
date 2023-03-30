@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from dbt.adapters.base.relation import BaseRelation, Policy
-from dbt.exceptions import RuntimeException
+from dbt.exceptions import DbtRuntimeError
 
 
 @dataclass
@@ -26,7 +26,7 @@ class SingleStoreRelation(BaseRelation):
 
     def render(self):
         if self.include_policy.database and self.include_policy.schema:
-            raise RuntimeException(
+            raise DbtRuntimeError(
                 "Got a relation with schema and database set to True"
                 "but only one can be set"
             )

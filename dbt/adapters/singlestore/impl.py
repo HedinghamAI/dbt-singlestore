@@ -10,7 +10,7 @@ from dbt.adapters.singlestore.relation import SingleStoreRelation
 from dbt.adapters.base.meta import available
 from dbt.adapters.sql import SQLAdapter
 from dbt.dataclass_schema import dbtClassMixin, ValidationError
-from dbt.exceptions import RuntimeException, raise_compiler_error
+from dbt.exceptions import DbtRuntimeError, raise_compiler_error
 from dbt.logger import GLOBAL_LOGGER as logger
 
 import dbt.utils
@@ -103,7 +103,7 @@ class SingleStoreAdapter(SQLAdapter):
                 'list_relations_without_caching',
                 kwargs=kwargs
             )
-        except RuntimeException as e:
+        except DbtRuntimeError as e:
             description = "Error while retrieving information about"
             logger.debug(f"{description} {schema_relation}: {e.msg}")
             return []
@@ -111,7 +111,7 @@ class SingleStoreAdapter(SQLAdapter):
         relations = []
         for row in results:
             if len(row) != 4:
-                raise RuntimeException(
+                raise DbtRuntimeError(
                     f'Invalid value from "singlestore__list_relations_without_caching({kwargs})", '
                     f'got {len(row)} values, expected 4'
                 )
@@ -159,6 +159,6 @@ class SingleStoreAdapter(SQLAdapter):
         elif location == 'prepend':
             return f"concat({value}, '{add_to}')"
         else:
-            raise RuntimeException(
+            raise DbtRuntimeError(
                 f'Got an unexpected location value of "{location}"'
             )

@@ -83,7 +83,7 @@ class SingleStoreConnectionManager(SQLConnectionManager):
                 f"database={credentials.database}, user={credentials.user}, password=****." + \
                 "\nPlease check that your dbt profile contains valid credentials and SingleStore server is running"
 
-            raise dbt.exceptions.FailedToConnectException(err_msg)
+            raise dbt.exceptions.FailedToConnectError(err_msg)
 
         return connection
 
@@ -105,8 +105,8 @@ class SingleStoreConnectionManager(SQLConnectionManager):
 
         except pymysql.DatabaseError as e:
             logger.debug('Database error: {}'.format(str(e)))
-            raise dbt.exceptions.DatabaseException(str(e).strip()) from e
+            raise dbt.exceptions.DbtDatabaseError(str(e).strip()) from e
 
         except Exception as e:
             logger.debug("Error running SQL: {}", sql)
-            raise dbt.exceptions.RuntimeException(e) from e
+            raise dbt.exceptions.DbtRuntimeError(e) from e
