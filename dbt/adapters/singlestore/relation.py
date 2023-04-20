@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from dbt.adapters.base.relation import BaseRelation, Policy
 from dbt.exceptions import DbtRuntimeError
@@ -20,8 +20,10 @@ class SingleStoreIncludePolicy(Policy):
 
 @dataclass(frozen=True, eq=False, repr=False)
 class SingleStoreRelation(BaseRelation):
-    quote_policy: SingleStoreQuotePolicy = SingleStoreQuotePolicy()
-    include_policy: SingleStoreIncludePolicy = SingleStoreIncludePolicy()
+    quote_policy: SingleStoreQuotePolicy = field(
+        default_factory=lambda: SingleStoreQuotePolicy())
+    include_policy: SingleStoreIncludePolicy = field(
+        default_factory=lambda: SingleStoreIncludePolicy())
     quote_character: str = '`'
 
     def render(self):
