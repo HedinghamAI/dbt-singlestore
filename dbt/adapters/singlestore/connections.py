@@ -33,7 +33,8 @@ class SingleStoreCredentials(Credentials):
     @property
     def type(self):
         return 'singlestore'
-
+    
+    @property
     def unique_field(self):
         return self.database
 
