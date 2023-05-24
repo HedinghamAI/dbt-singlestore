@@ -34,6 +34,9 @@ class SingleStoreCredentials(Credentials):
     def type(self):
         return 'singlestore'
 
+    def unique_field(self):
+        return self.database
+
     def _connection_keys(self):
         # return an iterator of keys to pretty-print in 'dbt debug'.
         # Omit fields like 'password'!
