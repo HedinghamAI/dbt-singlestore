@@ -89,8 +89,8 @@
     {{ sql_header if sql_header is not none }}
 
     {% if temporary -%}
-        -- {% set storage_type = 'rowstore temporary' -%} original
-        {% set storage_type = '' -%}
+        -- {% set storage_type = 'rowstore temporary' -%} original not sure why rowstore breaks our cluster
+        {% set storage_type = 'temporary' -%}
     {% elif config.get('storage_type') == 'rowstore' -%}
         {% set storage_type = 'rowstore' -%}
     {% else -%}
