@@ -89,7 +89,8 @@
     {{ sql_header if sql_header is not none }}
 
     {% if temporary -%}
-        {% set storage_type = 'rowstore temporary' -%}
+        -- {% set storage_type = 'rowstore temporary' -%} original
+        {% set storage_type = '' -%}
     {% elif config.get('storage_type') == 'rowstore' -%}
         {% set storage_type = 'rowstore' -%}
     {% else -%}
